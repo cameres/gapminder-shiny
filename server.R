@@ -15,11 +15,14 @@ function(input, output) {
   vis <- reactive({
     subset_df <- reactive_df()
     ggvis(subset_df, ~life, ~fert_rate, fill=~Region, opacity := 0.75) %>%
-      layer_points(key := ~Country.Name, size := ~pop/1e6) %>%
+      layer_points(key := ~Country.Name, size := ~pop/5e5) %>%
       scale_numeric("x", domain = c(10, 90), nice = FALSE, clamp = TRUE) %>%
       scale_numeric("y", domain = c(0.5, 9), nice = FALSE, clamp = TRUE) %>%
+      add_axis("x", title = "Birth Rate") %>%
+      add_axis("y", title = "Life Expectancy") %>%
       add_tooltip(function(data){
         paste0("Country: ", data$Country.Name, "<br>", 
+               "Population: ", data$pop, "<br>",
                "Region: ", data$Region, "<br>",
                "Life Expectancy: ", data$life, "<br>",
                "Fertility Rate: ", data$fert_rate, "<br>")

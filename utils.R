@@ -27,11 +27,22 @@ load_data <- function(){
     join(pop_gath_df, by=c("Country.Code", "year")) %>% 
     join(country_df, by=c("Country.Code"))
   
+  # convert from str -> int
   joined_df$year <- parse_number(joined_df$year)
+  
+  # drop unassociated regions 
+  joined_df <- joined_df[joined_df$Region != '', ]
+  joined_df$Region <- droplevels(joined_df$Region)
+  
+  # drop bad data
+  joined_df <- na.omit(joined_df)
   return(joined_df)
 }
 
+# could be optimized to not grab
+# data b.c. application runs
+# load_data twice
 get_regions <- function(){
-  country_df <- read.csv("metadata_country.csv")
-  unique(country_df$Region)
+  joined_df <- load_data()
+  na.omit(unique(joined_df$Region))
 }
