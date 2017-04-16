@@ -15,7 +15,7 @@ function(input, output) {
   vis <- reactive({
     subset_df <- reactive_df()
     ggvis(subset_df, ~life, ~fert_rate, fill=~Region, opacity := 0.75) %>%
-      layer_points(key := ~Country.Name, size=~pop) %>%
+      layer_points(key := ~Country.Name, size := ~pop/1e6) %>%
       scale_numeric("x", domain = c(10, 90), nice = FALSE, clamp = TRUE) %>%
       scale_numeric("y", domain = c(0.5, 9), nice = FALSE, clamp = TRUE) %>%
       add_tooltip(function(data){
@@ -23,7 +23,8 @@ function(input, output) {
                "Region: ", data$Region, "<br>",
                "Life Expectancy: ", data$life, "<br>",
                "Fertility Rate: ", data$fert_rate, "<br>")
-      }, "hover")
+      }, "hover") %>%
+      hide_legend("size")
   })
   
   vis %>% bind_shiny("ggvis", "ggvis_ui")
