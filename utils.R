@@ -1,3 +1,7 @@
+packages <- c('tidyr', 'plyr', 'dplyr', 'readr')
+new.packages <- packages[!(packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
 require('tidyr')
 require('plyr')
 require('dplyr')

@@ -1,3 +1,8 @@
+packages <- c('shiny', 'ggvis')
+new.packages <- packages[!(packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+
 library(shiny)
 require('ggvis')
 source('utils.R')
